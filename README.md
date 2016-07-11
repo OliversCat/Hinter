@@ -1,1 +1,1 @@
-# Hinter
+# Hints
