@@ -1,1 +1,0 @@
-require 'rush/sinatra'
