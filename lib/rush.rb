@@ -1,1 +1,1 @@
-require 'rush/engine'
+require 'rush/sinatra'
