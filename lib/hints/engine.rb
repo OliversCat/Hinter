@@ -1,5 +1,5 @@
 module Sinatra
-    module Rush
+    module Hints
       class Engine
         def initialize(options = {}, &blk)
             options ||= {}
@@ -37,7 +37,7 @@ module Sinatra
               end 
             else
               if check = line.match(r_verb)
-                if KnownVerb.include?(check[:verb])
+                if @options[:known_verb].include?(check[:verb])
                   scope_on = true
                   scope[:verb] = check[:verb].strip
                 end
@@ -48,15 +48,15 @@ module Sinatra
 
         private
         def load
-            if rush_home = @options[:rush_home] then
-                Dir.entries(rush_home).select{|f| f.end_with? ".rb"}.each do |f|
+            if hints_home = @options[:hints_home] then
+                Dir.entries(hints_home).select{|f| f.end_with? ".rb"}.each do |f|
                     klass = f.sub(".rb","").split("_").map(&:capitalize).join.sub("#","")
                     name = "/#{f.sub(".rb","").split('_')[0..-2].join.downcase}".sub("#","").sub("/home","")
-                    @options[:controller] << {name:name, klass:klass, file:"#{rush_home}/f"}
+                    @options[:controller] << {name:name, klass:klass, file:"#{hints_home}/f"}
                     require f
                 end
             else
-                raise "Rush Controller Dir was not set."
+                raise "<hints_home> was not set."
             end
         end
       end
