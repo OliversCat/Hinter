@@ -31,7 +31,7 @@ module Sinatra
                   # class UserController                              (<klass>)
                   #   include Hint
                   #
-                  #   [:get] => default endpoint: /user/login  (/<name>/<action>)
+                  #   [:get <verb>] => default endpoint: /user/login  (<endpoint> = /<name>/<action>)
                   #   def login
                   #   end
                   # end
@@ -87,7 +87,7 @@ module Sinatra
                       eval(eval_str1<<eval_str2)
 
                   when "filter"
-                      raise ArgumentError, "Bad Filter: #{action} used." unless action.start_with?('_') or action.end_with?('_') 
+                      raise ArgumentError, "Bad Filter: #{action} used. Filter should start and end with '_'" unless action.start_with?('_') or action.end_with?('_') 
                       filter = action.start_with?('_') ? 'before' : 'after'
                       endpoint = "\"#{controller}/#{action.sub('_','')}\""
                       endpoint << ", #{option}" if option != ''
