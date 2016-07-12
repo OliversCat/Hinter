@@ -11,8 +11,8 @@ module Sinatra
           blk.call(c) if block_given?
           c.set? :out, STDOUT
           c.set? :err, STDERR
-          c.set? :work_dir, "/controller/"
-          c.set? :hints_home, root + c.get(:work_dir)
+          c.set? :working_dir, "/controller/"
+          c.set? :hints_home, root + c.get(:working_dir)
           c.set  :known_verb, ["get", "post", "put", "delete",  
                                "patch",  "options",  "link",  "unlink",
                                "rget","rpost","rput","rdelete", 
@@ -23,11 +23,12 @@ module Sinatra
       out = conf[:out]
       err = conf[:err]
 
-      out.puts "Init Hints..."
+      out.puts "== Hints (v1.0.1)"
+      out.puts "init Hints..."
 
       Engine.new(conf) do |e|
           conf[:controller].each do |c|
-              out << "->Loading Controller: #{c[:klass]}"
+              out.puts << "->Loading Controller: #{c[:klass]}"
               e.compile(c[:file]) do |verb, action, endpoint, option, param|
                   # Example:
                   # => file: <hints_home>/controller/user.rb  #<file>
@@ -49,14 +50,14 @@ module Sinatra
                   #     end
                   #    end
                   #
-                  #   <file>           <klass>          <name>
+                  #   <file>           <klass>         <name>
                   #   oliver_cat.rb => OliverCat => /oliver/cat/<action>  #<endpoint>
                   #   
                   endpoint << "\"#{c[:name]}/#{action == 'index' ? '' : action}\"" if endpoint == ""
                   endpoint << ", #{option}" unless option.empty?
                   endpoint.sub!("#","")
 
-                  out << "          ┗-> Action: #{verb} #{endpoint} (#{param.join(',')})"
+                  out.puts << "          ┗-> Action: #{verb} #{endpoint} (#{param.join(',')})"
 
                   case verb
                   when "get", "post", "put", "delete",  "patch",  "options",  "link",  "unlink",
@@ -69,7 +70,7 @@ module Sinatra
                                   @instance = ::#{klass}.new
                               else
                                   if @instance.class != #{klass}
-                                      out << "->Warn: @instance.class = #{@instance.class} => #{klass}"
+                                      out.puts << "->Warn: @instance.class = #{@instance.class} => #{klass}"
                                       @instance = ::#{klass}.new
                                   end
                               end
@@ -126,11 +127,12 @@ module Sinatra
               end
           end
       end
-        
+      out.puts "initialize successed."
     rescue Exception => e
-        err.put "┗>#{e.inspect}"
-        err.put " ┗>#{e.backtrace.join("\n   ")}"
-        err.put "Failed to init Hints, exit 1."
+        err.puts " ┗> failed."
+        err.puts "  ┗>#{e.inspect}"
+        err.puts "  ┗>#{e.backtrace.join("\n    ")}"
+        err.puts "\nFailed to init Hints, exit 1."
         exit(1)
     end
   end
