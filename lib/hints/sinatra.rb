@@ -26,15 +26,27 @@ module Sinatra
               out << "->Loading Controller: #{c[:klass]}"
               e.compile(c[:file]) do |verb, action, endpoint, option, param|
                   # Example:
-                  # file: <hints_home>/controller/user_controller.rb  (<file>)
+                  # => file: <hints_home>/controller/user.rb  #<file>
+                  # => class User                             #<klass>
+                  #     include Hint
                   #
-                  # class UserController                              (<klass>)
-                  #   include Hint
+                  #     [:get <verb>] => default endpoint: /user/login  #<endpoint> = /<name>/<action>
+                  #     def login  #<action>
+                  #     end
+                  #    end
                   #
-                  #   [:get <verb>] => default endpoint: /user/login  (<endpoint> = /<name>/<action>)
-                  #   def login
-                  #   end
-                  # end
+                  # Name Convention:
+                  # => file: <hints_home>/controller/user_login.rb  #<file>
+                  # => class UserLogin                              #<klass>
+                  #     include Hint
+                  #     
+                  #     [:get <verb>] => default endpoint: /user/login/authetnicate  #<endpoint> = /<name>/<action>
+                  #     def authetnicate(uid, pass)   #<action>
+                  #     end
+                  #    end
+                  #
+                  #   <file>           <klass>          <name>
+                  #   oliver_cat.rb => OliverCat => /oliver/cat/<action>  #<endpoint>
                   #   
                   endpoint << "\"#{c[:name]}/#{action == 'index' ? '' : action}\"" if endpoint == ""
                   endpoint << ", #{option}" unless option.empty?
@@ -89,13 +101,13 @@ module Sinatra
                   when "filter"
                       raise ArgumentError, "Bad Filter: #{action} used. Filter should start and end with '_'" unless action.start_with?('_') or action.end_with?('_') 
                       filter = action.start_with?('_') ? 'before' : 'after'
-                      endpoint = "\"#{controller}/#{action.sub('_','')}\""
+                      endpoint = "\"#{c[:name]}/#{action.sub('_','')}\""
                       endpoint << ", #{option}" if option != ''
 
                       if ['__rootscope','rootscope__'].include?(action) then 
                           eval_str = "#{filter} "
                       else
-                          endpoint = "\"#{controller}/*\"" if ['__scope','scope__'].include?(action)
+                          endpoint = "\"#{c[:name]}/*\"" if ['__scope','scope__'].include?(action)
                           eval_str = "#{filter} #{endpoint}"
                       end
 
