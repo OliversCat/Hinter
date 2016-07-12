@@ -9,8 +9,8 @@ module Sinatra
       conf = Configuration.new(option) do |c|
           c.set? :out, STDOUT
           c.set? :err, STDERR
-          c.set? :working_dir, "/handler/"
-          c.set? :hints_home, root + c.get(:working_dir)
+          c.set? :work_dir, "/controller/"
+          c.set? :hints_home, root + c.get(:work_dir)
           c.set  :known_verb, ["get", "post", "put", "delete",  
                                "patch",  "options",  "link",  "unlink",
                                "rget","rpost","rput","rdelete", 
