@@ -28,7 +28,7 @@ module Sinatra
 
       Engine.new(conf) do |e|
           conf[:controller].each do |c|
-              out.puts << "->Loading Controller: #{c[:klass]}"
+              out.puts "->Loading Controller: #{c[:klass]}"
               e.compile(c[:file]) do |verb, action, endpoint, option, param|
                   # Example:
                   # => file: <hints_home>/controller/user.rb  #<file>
@@ -57,7 +57,7 @@ module Sinatra
                   endpoint << ", #{option}" unless option.empty?
                   endpoint.sub!("#","")
 
-                  out.puts << "          ┗-> Action: #{verb} #{endpoint} (#{param.join(',')})"
+                  out.puts "          ┗-> Action: #{verb} #{endpoint} (#{param.join(',')})"
 
                   case verb
                   when "get", "post", "put", "delete",  "patch",  "options",  "link",  "unlink",
@@ -65,13 +65,13 @@ module Sinatra
 
                       eval_str1 = <<-RUBY1
                           #{verb.sub(/^r/,'')} #{endpoint} do
-                              puts '->Forward to #{klass}.#{action}'  
+                              puts '->Forward to #{c[:klass]}.#{action}'  
                               if @instance == nil
-                                  @instance = ::#{klass}.new
+                                  @instance = ::#{c[:klass]}.new
                               else
-                                  if @instance.class != #{klass}
-                                      out.puts << "->Warn: @instance.class = #{@instance.class} => #{klass}"
-                                      @instance = ::#{klass}.new
+                                  if @instance.class != #{c[:klass]}
+                                      out.puts << "->Warn: @instance.class = #{@instance.class} => #{c[:klass]}"
+                                      @instance = ::#{c[:klass]}.new
                                   end
                               end
 
@@ -117,8 +117,8 @@ module Sinatra
                       end
 
                       eval_str << " do
-                                      puts '->Forward to #{klass}.#{action}'
-                                      @instance = ::#{klass}.new
+                                      puts '->Forward to #{c[:klass]}.#{action}'
+                                      @instance = ::#{c[:klass]}.new
                                       @instance.forward(self, '#{action}', #{param})
                                   end"
 

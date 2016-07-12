@@ -1,14 +1,18 @@
+require 'hints/controller'
+
 module Sinatra
     module Hints
       class Engine
         def initialize(options = {}, &blk)
-            options ||= {}
+            #options ||= {}
             @options = options
             @options[:controller] = []
+            load
             blk.call self
         end
 
-        def compile(src_data)
+        def compile(src_file)
+          src_data = File.new(src_file).readlines
           scope_on = false
           scope = {:verb => '', :option => '', :endpoint => '', :action => '', :paramset => []} 
 
@@ -52,8 +56,9 @@ module Sinatra
             Dir.entries(hints_home).select{|f| f.end_with? ".rb"}.each do |f|
                 klass = f.sub(/.rb$/,"").split("_").map(&:capitalize).join.sub("#","")
                 name = "/#{f.sub(/.rb$/,"").gsub("_","/").downcase}".sub("#","").sub(/^\/home/,"")
-                @options[:controller] << {name:name, klass:klass, file:"#{hints_home}/f"}
-                require f
+                @options[:controller] << {name:name, klass:klass, file:"#{hints_home}/#{f}"}
+
+                require @options[:hints_home] + "/" + f
             end
           else
             raise "<hints_home> was not set."
