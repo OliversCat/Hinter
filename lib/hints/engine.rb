@@ -48,19 +48,22 @@ module Sinatra
 
         private
         def load
-            if hints_home = @options[:hints_home] then
-                Dir.entries(hints_home).select{|f| f.end_with? ".rb"}.each do |f|
-                    klass = f.sub(/.rb$/,"").split("_").map(&:capitalize).join.sub("#","")
-                    name = "/#{f.sub(/.rb$/,"").gsub("_","/").downcase}".sub("#","").sub(/^\/home/,"")
-                    @options[:controller] << {name:name, klass:klass, file:"#{hints_home}/f"}
-                    require f
-                end
-            else
-                raise "<hints_home> was not set."
+          if hints_home = @options[:hints_home] then
+            Dir.entries(hints_home).select{|f| f.end_with? ".rb"}.each do |f|
+                klass = f.sub(/.rb$/,"").split("_").map(&:capitalize).join.sub("#","")
+                name = "/#{f.sub(/.rb$/,"").gsub("_","/").downcase}".sub("#","").sub(/^\/home/,"")
+                @options[:controller] << {name:name, klass:klass, file:"#{hints_home}/f"}
+                require f
             end
+          else
+            raise "<hints_home> was not set."
+          end
         end
       end
     end
 end
 
-p "asdf".split(" ")[0..-2]
+
+
+
+

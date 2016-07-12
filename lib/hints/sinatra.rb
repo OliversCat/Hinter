@@ -5,8 +5,10 @@ require 'hints/config'
 
 module Sinatra
   module Hints
-    def hints_setup(option={})
-      conf = Configuration.new(option) do |c|
+    def hints_setup(&blk)
+      conf = {}
+      Configuration.new(conf) do |c|
+          blk.call(c) if block_given?
           c.set? :out, STDOUT
           c.set? :err, STDERR
           c.set? :work_dir, "/controller/"
@@ -21,7 +23,7 @@ module Sinatra
       out = conf[:out]
       err = conf[:err]
 
-      out << "Init Hints..."
+      out.puts "Init Hints..."
 
       Engine.new(conf) do |e|
           conf[:controller].each do |c|
@@ -126,9 +128,9 @@ module Sinatra
       end
         
     rescue Exception => e
-        err "┗>#{e.inspect}"
-        err " ┗>#{e.backtrace.join("\n   ")}"
-        err "Failed to init Hints, exit 1."
+        err.put "┗>#{e.inspect}"
+        err.put " ┗>#{e.backtrace.join("\n   ")}"
+        err.put "Failed to init Hints, exit 1."
         exit(1)
     end
   end

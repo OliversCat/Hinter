@@ -1,12 +1,12 @@
 module Sinatra
-  module Rush
+  module Hints
     class Configuration
 
       def initialize(options = {}, &blk)
         @options = options
         @options ||= {}
         blk.call self
-        @options
+        #@options
       end
 
       def set(k, v)
