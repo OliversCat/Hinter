@@ -5,8 +5,8 @@ require 'hints/config'
 
 module Sinatra
   module Hints
-    def hints_setup(&blk)
-      conf = {}
+    def hints_setup(conf = {}, &blk)
+      #conf = {}
       Configuration.new(conf) do |c|
           blk.call(c) if block_given?
           c.set? :out, STDOUT
