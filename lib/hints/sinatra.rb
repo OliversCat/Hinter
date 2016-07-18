@@ -24,7 +24,7 @@ module Sinatra
       err = conf[:err]
 
       out.puts "== Hints (v1.0.1)"
-      out.puts "init Hints..."
+      out.puts "Initializing..."
 
       Engine.new(conf) do |e|
           conf[:controller].each do |c|
@@ -127,7 +127,7 @@ module Sinatra
               end
           end
       end
-      out.puts "initialize successed."
+      out.puts "\nHints Started."
     rescue Exception => e
         err.puts " ┗> failed."
         err.puts "  ┗>#{e.inspect}"
