@@ -86,7 +86,7 @@ module Sinatra
                                   }
                                 rescue
                                   headers['Content-Type'] = 'json'
-                                  return {result: false, msg: "illegal params format. expected:{\"key\":\"value\"}"}.to_json
+                                  return {result: false, msg: %q[illegal params format. expected:{"key":"value"}]}.to_json
                                 end
                               end
 
