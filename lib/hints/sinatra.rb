@@ -87,7 +87,7 @@ module Sinatra
                                   }
                                 rescue Exception => e
                                   err.puts "#{e.inspect}"
-                                  {result:false, msg: "illegal params format. expected:{'key':'value'}"}
+                                  return {result: false, msg: "illegal params format. expected:{'key':'value'}"}
                                 end
                               end
 
