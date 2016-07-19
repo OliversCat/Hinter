@@ -85,8 +85,7 @@ module Sinatra
                                   JSON.parse(body_content).each_pair{ |k,v|
                                       params[k] = v
                                   }
-                                rescue Exception => e
-                                  err.puts "#{e.inspect}"
+                                rescue
                                   return {result: false, msg: "illegal params format. expected:{'key':'value'}"}
                                 end
                               end
