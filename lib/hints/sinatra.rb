@@ -65,12 +65,12 @@ module Sinatra
 
                       eval_str1 = <<-RUBY1
                           #{verb.sub(/^r/,'')} #{endpoint} do
-                              puts '->Forward to #{c[:klass]}.#{action}'  
+                              out.puts '->Forward to #{c[:klass]}.#{action}'  
                               if @instance == nil
                                   @instance = ::#{c[:klass]}.new
                               else
                                   if @instance.class != #{c[:klass]}
-                                      out.puts << "->Warn: @instance.class = #{@instance.class} => #{c[:klass]}"
+                                      out.puts "->Warn: @instance.class = #{@instance.class} => #{c[:klass]}"
                                       @instance = ::#{c[:klass]}.new
                                   end
                               end
@@ -81,9 +81,14 @@ module Sinatra
                           eval_str2 = <<-RUBY2
                               headers['Content-Type'] = 'json'
                               if (body_content = request.body.read).length > 0 then
+                                begin
                                   JSON.parse(body_content).each_pair{ |k,v|
                                       params[k] = v
                                   }
+                                rescue Exception => e
+                                  err.puts "#{e.inspect}"
+                                  {result:false, msg: "illegal params format. expected:{'key':'value'}"}
+                                end
                               end
 
                               action_result = @instance.forward(self, "#{action}", #{param})
@@ -117,7 +122,7 @@ module Sinatra
                       end
 
                       eval_str << " do
-                                      puts '->Forward to #{c[:klass]}.#{action}'
+                                      out.puts '->Forward to #{c[:klass]}.#{action}'
                                       @instance = ::#{c[:klass]}.new
                                       @instance.forward(self, '#{action}', #{param})
                                   end"
