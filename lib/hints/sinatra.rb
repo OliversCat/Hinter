@@ -79,17 +79,18 @@ module Sinatra
 
                       if verb =~ /^r/
                           eval_str2 = <<-RUBY2
-                              headers['Content-Type'] = 'json'
                               if (body_content = request.body.read).length > 0 then
                                 begin
                                   JSON.parse(body_content).each_pair{ |k,v|
                                       params[k] = v
                                   }
                                 rescue
+                                  headers['Content-Type'] = 'json'
                                   return {result: false, msg: "illegal params format. expected:{'key':'value'}"}
                                 end
                               end
 
+                              headers['Content-Type'] = 'json'
                               action_result = @instance.forward(self, "#{action}", #{param})
                               if headers['Content-Type'] == 'json' then
                                   action_result.to_json 
