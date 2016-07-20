@@ -2,11 +2,11 @@ module Hint
   def forward(refer_obj, fun, fun_paramset = [])
     @ref_obj = refer_obj
 
-    res = catch(:halt){
+    res = catch(:hint_halt){
       if fun_paramset.size > 0
         missing_params = fun_paramset.select{|x| params.has_key?(x) == false}
         if missing_params.length > 0 then
-          halt(Result.Fail("Missing Parameters: #{missing_params.join(',')}")) 
+          hint_halt(Result.Fail("Missing Parameters: #{missing_params.join(',')}")) 
         else
           self.method(fun.to_sym).call(*fun_paramset.map!{|x| params[x]})
         end
@@ -33,8 +33,8 @@ module Hint
     end
   end
 
-  def halt(msg)
-    throw :halt, msg
+  def hint_halt(msg)
+    throw :hint_halt, msg
   end
 
   class Result
