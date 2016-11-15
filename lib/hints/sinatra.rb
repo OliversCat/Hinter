@@ -4,8 +4,10 @@ require 'hints/engine'
 require 'hints/config'
 
 module Sinatra
-  VERSION = '1.0.1'
   module Hints
+
+    VERSION = '1.0.1'
+
     def hints_setup(conf = {}, &blk)
       #conf = {}
       Configuration.new(conf) do |c|
@@ -134,6 +136,7 @@ module Sinatra
           end
       end
       out.puts "\nHints Started."
+
     rescue Exception => e
         err.puts " ┗> failed."
         err.puts "  ┗>#{e.inspect}"
