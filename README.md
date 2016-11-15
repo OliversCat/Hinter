@@ -34,8 +34,8 @@ end
 ```
 
 ###### Request Handler
-Add a notation #[:<http verb>] above a function, then it's a handler.
-Supported notations: put, get, post, delete, patch, link
+Add a notation #[:http_verbs] above a function, then it's a handler.
+Supported verbs: put, get, post, delete, patch, link
 (there's a special edition of restful handler for each verb, just add 'r' ahead.)
 
 ```ruby
@@ -46,8 +46,8 @@ end
 ```
 
 ###### Access Endpoint
-By default, Hitns will generate endpoint for each handler if it is not set explicitly.
-You can add [:endpiont] above a function to set the access endpoint.
+By default, Hints will generate endpoint for each handler if it is not set explicitly.
+You can add [:endpoint] above a function to set the access endpoint.
 
 ```ruby
 default endpoint: "http://localhost/user/create"
@@ -58,7 +58,7 @@ end
 
 
 customize endpoint: "http://localhost/user/new"
-#[:endpiint new]
+#[:endpoint new]
 #[:rput]
 def create(uid, upass)
   ...
