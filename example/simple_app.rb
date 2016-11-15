@@ -1,5 +1,21 @@
 require 'hintrb'
 
+# Usage:
+# At very begin request will be hooked by "__rootscope"
+# for each fucntion defined here there's a default route:
+# def auth(uid, upass);end
+# => post: /user/auth
+#
+# def info(uid);end
+# => get: /user/info
+#
+# create(uid, upass, roles)
+# => put: /user/create
+#
+# parameters in each fucntion will be verified in http request,
+# if no match parameters are given in the request(neither query sting nor in reqeust body)
+# then will get a failed response.
+
 class User
   include Hint
 
