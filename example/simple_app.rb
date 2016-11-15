@@ -9,7 +9,7 @@ require 'hints'
 # def info(uid);end
 # => get: /user/info
 #
-# create(uid, upass, roles)
+# def create(uid, upass, roles);end
 # => put: /user/create
 #
 # parameters in each fucntion will be verified in http request,
