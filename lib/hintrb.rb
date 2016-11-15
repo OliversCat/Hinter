@@ -1,1 +1,0 @@
-require 'hintrb/sinatra'

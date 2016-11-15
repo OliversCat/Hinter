@@ -1,4 +1,4 @@
-require 'hintrb'
+require 'hints'
 
 # Usage:
 # At very begin request will be hooked by "__rootscope"

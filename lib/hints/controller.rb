@@ -6,7 +6,7 @@ module Hint
       if fun_paramset.size > 0
         missing_params = fun_paramset.select{|x| params.has_key?(x) == false}
         if missing_params.length > 0 then
-          hint_halt(Result.Fail("Missing Parameters: #{missing_params.join(',')}")) 
+          hint_halt(Result.Fail("Missing Parameters: #{missing_params.join(',')}"))
         else
           self.method(fun.to_sym).call(*fun_paramset.map!{|x| params[x]})
         end
@@ -16,7 +16,7 @@ module Hint
     }
     return res if res!= nil
   end
-  
+
   def localBinding
     return binding()
   end
@@ -25,7 +25,7 @@ module Hint
     if @ref_obj.respond_to? fun then
 
       self.class.send(:define_method, fun){|*param|
-        @ref_obj.send(fun, *param, &block) 
+        @ref_obj.send(fun, *param, &block)
       }
       self.send(fun, *param, &block)
     else
@@ -57,5 +57,3 @@ module Hint
 
 
 end
-
-#p __FILE__

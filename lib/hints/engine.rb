@@ -14,7 +14,7 @@ module Sinatra
         def compile(src_file)
           src_data = File.new(src_file).readlines
           scope_on = false
-          scope = {:verb => '', :option => '', :endpoint => '', :action => '', :paramset => []} 
+          scope = {:verb => '', :option => '', :endpoint => '', :action => '', :paramset => []}
 
           r_verb    = %r{#\[:(?<verb>[a-z]+)\]}
           r_option  = %r{#\[:option(?<option>.*)\]}
@@ -38,7 +38,7 @@ module Sinatra
                 yield(scope[:verb], scope[:action], scope[:endpoint], scope[:option], scope[:paramset])
                 scope_on = false
                 scope.each_value(&:clear)
-              end 
+              end
             else
               if check = line.match(r_verb)
                 if @options[:known_verb].include?(check[:verb])
@@ -67,8 +67,3 @@ module Sinatra
       end
     end
 end
-
-
-
-
-

@@ -4,6 +4,7 @@ require 'hints/engine'
 require 'hints/config'
 
 module Sinatra
+  VERSION = '1.0.1'
   module Hints
     def hints_setup(conf = {}, &blk)
       #conf = {}
@@ -13,9 +14,9 @@ module Sinatra
           c.set? :err, STDERR
           c.set? :working_dir, "/controller/"
           c.set? :hints_home, root + c.get(:working_dir)
-          c.set  :known_verb, ["get", "post", "put", "delete",  
+          c.set  :known_verb, ["get", "post", "put", "delete",
                                "patch",  "options",  "link",  "unlink",
-                               "rget","rpost","rput","rdelete", 
+                               "rget","rpost","rput","rdelete",
                                "rpatch", "roptions", "rlink", "runlink",
                                "filter"].freeze
       end
@@ -23,7 +24,7 @@ module Sinatra
       out = conf[:out]
       err = conf[:err]
 
-      out.puts "== Hints (v1.0.1)"
+      out.puts "== Hints #{Sinatra::VERSION}"
       out.puts "Initializing..."
 
       Engine.new(conf) do |e|
@@ -44,7 +45,7 @@ module Sinatra
                   # => file: <hints_home>/controller/user_login.rb  #<file>
                   # => class UserLogin                              #<klass>
                   #     include Hint
-                  #     
+                  #
                   #     [:get <verb>] => default endpoint: /user/login/authetnicate  #<endpoint> = /<name>/<action>
                   #     def authetnicate(uid, pass)   #<action>
                   #     end
@@ -52,7 +53,7 @@ module Sinatra
                   #
                   #   <file>           <klass>         <name>
                   #   oliver_cat.rb => OliverCat => /oliver/cat/<action>  #<endpoint>
-                  #   
+                  #
                   endpoint << "\"#{c[:name]}/#{action == 'index' ? '' : action}\"" if endpoint == ""
                   endpoint << ", #{option}" unless option.empty?
                   endpoint.sub!("#","")
@@ -65,7 +66,7 @@ module Sinatra
 
                       eval_str1 = <<-RUBY1
                           #{verb.sub(/^r/,'')} #{endpoint} do
-                              out.puts '->Forward to #{c[:klass]}.#{action}'  
+                              out.puts '->Forward to #{c[:klass]}.#{action}'
                               if @instance == nil
                                   @instance = ::#{c[:klass]}.new
                               else
@@ -93,7 +94,7 @@ module Sinatra
                               headers['Content-Type'] = 'json'
                               action_result = @instance.forward(self, "#{action}", #{param})
                               if headers['Content-Type'] == 'json' then
-                                  action_result.to_json 
+                                  action_result.to_json
                               else
                                   action_result
                               end
@@ -109,12 +110,12 @@ module Sinatra
                       eval(eval_str1<<eval_str2)
 
                   when "filter"
-                      raise ArgumentError, "Bad Filter: #{action} used. Filter should start and end with '_'" unless action.start_with?('_') or action.end_with?('_') 
+                      raise ArgumentError, "Bad Filter: #{action} used. Filter should start and end with '_'" unless action.start_with?('_') or action.end_with?('_')
                       filter = action.start_with?('_') ? 'before' : 'after'
                       endpoint = "\"#{c[:name]}/#{action.sub('_','')}\""
                       endpoint << ", #{option}" if option != ''
 
-                      if ['__rootscope','rootscope__'].include?(action) then 
+                      if ['__rootscope','rootscope__'].include?(action) then
                           eval_str = "#{filter} "
                       else
                           endpoint = "\"#{c[:name]}/*\"" if ['__scope','scope__'].include?(action)
