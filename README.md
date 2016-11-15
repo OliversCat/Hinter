@@ -16,3 +16,55 @@ Advantage of Hints:
 ```bash
 gem install hints
 ```
+
+#### [Getting Start]
+**"hints_setup"** need to be called to initialize hints environment.
+```ruby
+hints_setup(out:STDOUT, err:STDERR}
+```
+
+#### [Features]
+###### General
+Make a class be a Hints Controller
+```ruby
+class User
+  include Hints
+  ...
+end
+```
+
+###### Request Handler
+Add a notation #[:<http verb>] above a function, then it's a handler.
+Supported notations: put, get, post, delete, patch, link
+(there's a special edition of restful handler for each verb, just add 'r' ahead.)
+
+```ruby
+#[:rget]
+def info(uid)
+  ...
+end
+```
+
+###### Access Endpoint
+By default, Hitns will generate endpoint for each handler if it is not set explicitly.
+You can add [:endpiont] above a function to set the access endpoint.
+
+```ruby
+default endpoint: "http://localhost/user/create"
+#[:rput]
+def create(uid, upass)
+  ...
+end
+
+
+customize endpoint: "http://localhost/user/new"
+#[:endpiint new]
+#[:rput]
+def create(uid, upass)
+  ...
+end
+```
+
+###### Filter
+
+###### Parameters Validation
