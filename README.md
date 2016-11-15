@@ -23,7 +23,9 @@ gem install hints
 hints_setup(out:STDOUT, err:STDERR}
 ```
 
-#### [Features]
+#### [Details]
+In all examples below we assume there's a class User and there are several functions defined in it to create, query and login a user.
+
 ###### General
 Make a class be a Hints Controller
 ```ruby
@@ -46,8 +48,11 @@ end
 ```
 
 ###### Access Endpoint
-By default, Hints will generate endpoint for each handler if it is not set explicitly.
 You can add [:endpoint] above a function to set the access endpoint.
+By default, Hints will generate endpoint for each handler if it is not set explicitly.
+
+The format of endpoint:
+http(s)://localhost/**controller**/**handler**
 
 ```ruby
 default endpoint: "http://localhost/user/create"
