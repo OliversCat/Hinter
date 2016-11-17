@@ -4,6 +4,7 @@ require 'hints'
 
 # Description:
 # At very begin request will be hooked by "__rootscope"
+#
 # for each fucntion defined here there's a default route:
 # def auth(uid, upass);end
 # => post: /user/auth
