@@ -39,7 +39,7 @@ module Sinatra
                   #     include Hint
                   #
                   #     [:get <verb>] => default endpoint: /user/login  #<endpoint> = /<name>/<action>
-                  #     def login  #<action>
+                  #     def login  #<action/handler>
                   #     end
                   #    end
                   #
@@ -49,7 +49,7 @@ module Sinatra
                   #     include Hint
                   #
                   #     [:get <verb>] => default endpoint: /user/login/authetnicate  #<endpoint> = /<name>/<action>
-                  #     def authetnicate(uid, pass)   #<action>
+                  #     def authetnicate(uid, pass)   #<action/handler>
                   #     end
                   #    end
                   #

@@ -17,7 +17,7 @@ module Sinatra
           scope = {:verb => '', :option => '', :endpoint => '', :action => '', :paramset => []}
 
           r_verb    = %r{#\[:(?<verb>[a-z]+)\]}
-          r_option  = %r{#\[:option(?<option>.*)\]}
+          r_option  = %r{#\[:conditions(?<option>.*)\]}
           r_endpoint  = %r{#\[:endpoint(?<endpoint>.*)\]}
           r_def     = %r{def\s+(?<def>[a-z!?_\s]+)(?<paramset>[(),a-z_\s]+)}
 
