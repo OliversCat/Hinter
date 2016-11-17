@@ -10,6 +10,7 @@ Advantage of Hints:
 - 0 Configuration. Functions in the controller class can be exposed as a web access endpoint by just adding an annotation.
 - Flexible annotation.
 - No extra performance lose. Hints runs only when sinatra startup then sinatra in charge of everything.
+- Sinatra DSLs are supported.
 
 ## Quick Start
 #### [Installation]
@@ -64,7 +65,7 @@ Supported verbs: **put, get, post, delete, patch, link, options** <br/>
 ```ruby
 #[:rget]
 def info(uid)
-  ...
+  ... # sinatra DSLs are supported, you can use: halt, params, redirect, etc.
 end
 ```
 
@@ -88,11 +89,11 @@ class User
   end
 
 
-  #=> customize endpoint = "http://localhost/user/new"
+  #=> customize endpoint = "http://localhost/user/login"
 
-  #[:endpoint new]
-  #[:rput]
-  def create(uid, upass)
+  #[:endpoint login]
+  #[:rpost]
+  def auth(uid)
     ...
   end
 end
@@ -197,7 +198,7 @@ end
 
 # http(s)://localhost/*
 # => before filter
-# => call All handlers
+# => call any handler
 # => after filter
 ```
 ###### Parameters Validation
@@ -227,7 +228,7 @@ end
 
 ```
 
-If it's a get request then a qualified http request wouldl be: <br/>
+If it's a get request then a qualified http request would be: <br/>
 http(s)://localhost/user/info?uid=oliver
 
 ```ruby

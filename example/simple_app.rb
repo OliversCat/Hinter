@@ -1,6 +1,8 @@
+# controller/user.rb
+
 require 'hints'
 
-# Usage:
+# Description:
 # At very begin request will be hooked by "__rootscope"
 # for each fucntion defined here there's a default route:
 # def auth(uid, upass);end
@@ -12,8 +14,8 @@ require 'hints'
 # def create(uid, upass, roles);end
 # => put: /user/create
 #
-# parameters in each fucntion will be verified in http request,
-# if no match parameters are given in the request(neither query sting nor in reqeust body)
+# parameters in each function will be verified from http request,
+# if no match parameters were given in the request(neither query sting nor in reqeust body)
 # then will get a failed response.
 
 class User
@@ -70,3 +72,31 @@ class User
   end
 
 end
+
+=begin
+# Above code equals to following sanatra dsl
+
+require 'sinatra'
+require_relative 'controller/user.rb'
+
+@controller_user = User.new
+before do
+  @controller_user.__rootscope
+end
+
+post 'user/auth' do
+  param_check('uid', 'upass')
+  @controller_user.auth(params['uid'], params['upass'])
+end
+
+get 'user/info' do
+  param_check('uid')
+  @controller_user.info(params['uid'])
+end
+
+put 'user/create' do
+  param_check('uid', 'upass')
+  @controller_user.create(params['uid'], params['upass'])
+end
+
+=end
