@@ -14,7 +14,7 @@ Advantage of Hints:
 ## Quick Start
 #### [Installation]
 ```bash
-gem install hints
+gem install hints  #(not ready)
 ```
 
 #### [Getting Start]
@@ -25,7 +25,7 @@ hints_setup(out:STDOUT, err:STDERR, working_dir:'controller')
 
 ```
 | param | deault value | description |
-|------------------------------------|
+|-------|--------------|-------------|
 | out | STDOUT | set standard output stream |
 | err | STDERR | set standard err stream |
 | working_dir | controller | set Hints root directory (web_project_folder/controller) |
@@ -101,7 +101,7 @@ end
 Name Convention:
 
 |source file | class | handler | endpoint|
-|--------------------------------|
+|------------|-------|---------|---------|
 |user.rb | User | create |  /user/create
 |user_service.rb | UserService | auth | /user/service/atuh|
 
