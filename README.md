@@ -8,7 +8,6 @@ Advantage of Hints:
 - Easy to understand and implement.
 - 0 cost to modify an existing class to a Controller.
 - 0 Configuration. Functions in the controller class can be exposed as a web access endpoint by just adding an annotation.
-
 - No extra performance lose. Hints runs only when sinatra startup then sinatra in charge of everything.
 - Sinatra DSLs are supported.
 
