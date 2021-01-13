@@ -1,5 +1,8 @@
 # Hints
-A light and sweet MVC plugin for Sinatra. (90%)
+A light and sweet MVC plugin for Sinatra.
+
+It's a Lab work to explore Sinatra features, for study and fun. :)
+
 
 ## Description
 The Hints is an easy way of MVC in Sinatra, just add a annotation to an existing function and then it becomes a http request handler immediately and naturally associated with an access endpoint.
